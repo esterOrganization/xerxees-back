@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    container_name: nestjs_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - nestjs-network
+
+  app_prod:
+    build:
+      context: .
+      target: production
+    container_name: nestjs_app_prod
+    ports:
+      - "3200:3200"
+    env_file:
+      - .env.production
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - nestjs-network
+
+  app_dev:
+    build:
+      context: .
+      target: development
+    container_name: nestjs_app_dev
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.development
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - nestjs-network
+
+volumes:
+  postgres_data:
+
+networks:
+  nestjs-network:
+    driver: bridge
