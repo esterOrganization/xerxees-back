@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # PostgreSQL container
   db:
     image: postgres:13
     container_name: nestjs_db
@@ -12,14 +13,21 @@ services:
       - ./postgres-init:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - nestjs-network
 
+  # Production application
   app_prod:
     build:
       context: .
       target: production
     container_name: nestjs_app_prod
+    restart: unless-stopped
     ports:
       - "3200:3200"
     env_file:
@@ -30,6 +38,7 @@ services:
     networks:
       - nestjs-network
 
+  # Development application
   app_dev:
     build:
       context: .
