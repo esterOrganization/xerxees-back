@@ -14,9 +14,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --only=production
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/.env.production ./
+COPY --from=builder /app/.env.production ./ || true
 EXPOSE 3200
-CMD ["npm", "run", "start"]
+CMD ["node", "dist/main"]
 
 # Stage 3: Development image
 FROM node:21-alpine AS development
