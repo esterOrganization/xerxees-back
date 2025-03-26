@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM node:20-alpine AS builder
+FROM node:21-alpine AS builder
 RUN apk add --no-cache python3 make g++ openssl
 WORKDIR /app
 COPY package*.json ./
@@ -8,7 +8,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Production image
-FROM node:20-alpine AS production
+FROM node:21-alpine AS production
 RUN apk add --no-cache openssl
 WORKDIR /app
 COPY package*.json ./
@@ -19,7 +19,7 @@ EXPOSE 3200
 CMD ["npm", "run", "start"]
 
 # Stage 3: Development image
-FROM node:20-alpine AS development
+FROM node:21-alpine AS development
 RUN apk add --no-cache python3 make g++ openssl
 WORKDIR /app
 COPY package*.json ./
