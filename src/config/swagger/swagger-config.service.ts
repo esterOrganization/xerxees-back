@@ -32,6 +32,10 @@ export class SwaggerConfigService {
       .setDescription(this.swaggerDescription)
       .setVersion(this.swaggerVersion)
       .addTag(this.swaggerTag)
+      .addBearerAuth(
+        { type: 'http', scheme: 'Bearer', bearerFormat: 'Token', in: 'header' },
+        'access-token',
+      )
       .build();
 
     const document = SwaggerModule.createDocument(app, config);

@@ -20,4 +20,8 @@ export const envValidationSchema = joi.object({
   SG_VERSION: joi.string().required(),
   SG_TAG: joi.string().required(),
   SG_PREFIX: joi.string().required(),
+
+  // JWT
+  JWT_SECRET: joi.string().required(),
+  JWT_EXPIRATION_TIME: joi.string().required(),
 });

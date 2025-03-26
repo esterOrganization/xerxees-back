@@ -1,0 +1,1 @@
+export const PostgresProviderConstant="POSTGRES_PROVIDER_CONSTANT"
