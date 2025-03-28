@@ -50,4 +50,26 @@ export class  UserService{
       return this.jwtService.sign(jwtPayload)
 
     }
+
+    public async handleUserByGoogleAccount(email:string):Promise<string>
+    {
+      const findUser=await this.userRepository.findUserByEmail(email)
+      if(findUser)
+      {
+        console.log("---------- user exist ---------")
+        const jwtPayload:IUserTokenPayload={
+          id:findUser.id
+        }
+        return this.jwtService.sign(jwtPayload)
+      }else{
+        console.log("---------- user not exist ---------")
+        const createdUser=await this.userRepository.registerUserByGoogleAccount(email)
+        const createdWallet=await this.walletService.createWallet()
+        await this.userRepository.assignWalletToUser(createdUser.id,createdWallet)
+        const jwtPayload:IUserTokenPayload={
+          id:createdUser.id
+        }
+        return this.jwtService.sign(jwtPayload)
+      }
+    }
 }

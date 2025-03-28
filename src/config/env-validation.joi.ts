@@ -24,4 +24,10 @@ export const envValidationSchema = joi.object({
   // JWT
   JWT_SECRET: joi.string().required(),
   JWT_EXPIRATION_TIME: joi.string().required(),
+
+  // GOOGLE OAUTH
+  GOOGLE_CLIENT_ID: joi.string().required(),
+  GOOGLE_CLIENT_SECRET: joi.string().required(),
+  GOOGLE_CALLBACK_URL: joi.string().required(),
+  FRONT_CALL_BACK: joi.string().required(),
 });

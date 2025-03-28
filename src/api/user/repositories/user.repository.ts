@@ -37,4 +37,13 @@ export class UserRepository extends Repository<UserEntity>{
       }
     })
   }
+
+  public async registerUserByGoogleAccount(email:string):Promise<UserEntity>
+  {
+    const userInstance=this.create({
+      email,
+      userName:email
+    })
+    return await this.save(userInstance)
+  }
 }

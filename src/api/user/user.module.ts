@@ -7,9 +7,14 @@ import { UserController } from "./controllers/user.controller";
 import { UserRepository } from "./repositories/user.repository";
 import { UserService } from "./services/user.service";
 import { WalletModule } from "../wallet/wallet.module";
+import { PassportModule } from "@nestjs/passport";
+import { GoogleStrategy } from "src/common/strategies/google.strategy";
 
 @Module({
     imports:[
+        PassportModule.register({ defaultStrategy: 'google',
+            session: false,
+         }),
         JwtModule.registerAsync({
         global:true,
         imports:[ConfigurationModule],
@@ -24,7 +29,7 @@ import { WalletModule } from "../wallet/wallet.module";
     WalletModule
     ],
     controllers:[UserController],
-    providers:[JwtStrategy,UserRepository,UserService],
+    providers:[JwtStrategy,GoogleStrategy,UserRepository,UserService],
     exports:[UserService]
 })
 export class UserModule{}

@@ -6,7 +6,11 @@ import { BadRequestException, Logger, ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  app.enableCors({
+    origin: ["*"],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
   // Implement Swagger 
   const swaggerConfigService:SwaggerConfigService=app.get<SwaggerConfigService>(SwaggerConfigService)
   swaggerConfigService.initialize(app)
