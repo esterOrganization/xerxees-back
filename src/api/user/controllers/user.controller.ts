@@ -9,6 +9,7 @@ import { GetUser } from "src/common/decorators/get-user.decorator";
 import { IUserTokenPayload } from "src/common/interfaces/user-token-payload.interface";
 import { UserEntity } from "../entities/user.entity";
 import { UseJwtGuard } from "src/common/functions/user-jwt-guard.function";
+import { WalletEntity } from "src/api/wallet/entities/wallet.entity";
 
 @ApiTags("[USERS]")
 @Controller("users")
@@ -47,5 +48,12 @@ export class UserController {
   @Get('me')
   public async me(@GetUser() user: IUserTokenPayload): Promise<UserEntity> {
     return await this.userService.me(user.id)
+  }
+
+  @ApiOperation({ summary: "User Profile" })
+  @UseJwtGuard()
+  @Get('wallet')
+  public async userWallet(@GetUser() user: IUserTokenPayload): Promise<WalletEntity> {
+    return await this.userService.userWallet(user.id)
   }
 }
