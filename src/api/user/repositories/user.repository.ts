@@ -46,4 +46,13 @@ export class UserRepository extends Repository<UserEntity>{
     })
     return await this.save(userInstance)
   }
+
+  public async me(id:string):Promise<UserEntity>
+  {
+    return await this.findOne({
+      where:{
+        id
+      }
+    }) as UserEntity
+  }
 }

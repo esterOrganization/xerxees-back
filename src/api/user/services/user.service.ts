@@ -72,4 +72,9 @@ export class  UserService{
         return this.jwtService.sign(jwtPayload)
       }
     }
+
+    public async me(id:string):Promise<UserEntity>
+    {
+      return await this.userRepository.me(id)
+    }
 }
